@@ -1,0 +1,21 @@
+FROM node:alpine
+
+WORKDIR '/app'
+
+COPY package.json /app/
+COPY yarn.lock /app/
+
+RUN yarn install 
+
+COPY public /app/public
+COPY src /app/src
+
+RUN yarn run build
+
+FROM node:alpine
+
+RUN yarn global add serve
+
+COPY --from=0 /app/build /app
+
+CMD [ "serve", "-s", "/app" ]

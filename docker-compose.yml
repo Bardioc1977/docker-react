@@ -1,0 +1,20 @@
+version: '3.7'
+
+services: 
+    web-dev:
+        build: 
+            context: '.'
+            dockerfile: 'Dockerfile.dev'
+        image: 'frontend'
+        ports: 
+          - '3000:3000'
+        volumes: 
+          - '/app/node_modules'
+          - '.:/app'
+    web-test:
+        image: 'frontend'
+        volumes: 
+          - '/app/node_modules'
+          - '.:/app'
+        command: [ 'npm', 'run', 'test' ]
+
